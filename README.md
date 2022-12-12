@@ -4,9 +4,7 @@ used python 3.10
 - change db connection at config.py
 
 from app import *
->>> app = create_app()
->>> with app.app_context():
-...     db.create_all()
-...     db.drop_all()     
-
-
+app = create_app()
+with app.app_context():
+    db.create_all()
+    db.drop_all()
