@@ -10,9 +10,8 @@ const login = (email, password) => {
       })
       .then((response) => {
         if (response.data.username) {
-          localStorage.setItem("user", JSON.stringify(response.data));
+          sessionStorage.setItem("user", JSON.stringify(response.data));
         }
-  
         return response.data;
       });
   };
@@ -24,11 +23,24 @@ const login = (email, password) => {
       email,
       password
     })
-    .then
+    .then((response) =>{
+      console.log(response.data)
+      return response.data;
+    })
+  }
+
+  const fetchProducts = (type) => {
+    return axios.get(API_URI + `items?type=${type}`,{
+      headers:{
+        Authorization: 'Bearer ' + JSON.parse(sessionStorage.getItem("user"))['access_token']
+      }
+    })
+    .then((response) => response.data)
   }
 
   const AuthServices = {
     login,
     register,
+    fetchProducts
   }
   export default AuthServices

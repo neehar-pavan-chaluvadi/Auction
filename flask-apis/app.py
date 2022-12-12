@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api
 from flask_admin import Admin
@@ -12,6 +13,8 @@ from models import User, Product
 
 def create_app():
     app = Flask(__name__)
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.config.from_object(Config)
     register_extensions(app)
     register_resources(app)

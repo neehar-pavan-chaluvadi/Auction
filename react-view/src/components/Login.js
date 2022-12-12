@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AuthServices from "../servicerequests/service";
 
 export const Login = (props) => {
@@ -8,12 +9,17 @@ export const Login = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
-        console.log(pass);
+        AuthServices.login(email, pass).then((response) => {
+            props.compSwitch('auction')
+        }).catch((error) => {
+            toast.error('Invalid Username or Password');
+            console.error(error);
+        })
     }
 
     return (
         <div className="auth-form-container">
+            <ToastContainer />
             <h2>Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="email">email</label>
@@ -22,7 +28,7 @@ export const Login = (props) => {
                 <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="password" id="password" name="password" />
                 <button type="submit">Log In</button>
             </form>
-            <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Register here.</button>
+            <button className="link-btn" onClick={() => props.compSwitch('register')}>Don't have an account? Register here.</button>
         </div>
     )
 }

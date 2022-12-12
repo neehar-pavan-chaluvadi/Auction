@@ -1,5 +1,6 @@
 from flask_restful import Resource
 from flask import request
+from flask_cors import cross_origin
 from models import User, Product
 from http import HTTPStatus
 from utils import hash_password, check_password
@@ -80,7 +81,7 @@ class UserBuyer(Resource):
 
 
 class UserLogin(Resource):
-
+    @cross_origin()
     def post(self):
         data = request.get_json()
         email = data.get('email')

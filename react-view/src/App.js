@@ -4,6 +4,7 @@ import auction from './images/auction.png'
 import './App.css';
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
+import { Auction } from "./components/Auction";
 
 function App() {
   const [currentForm, setCurrentForm] = useState('login');
@@ -12,6 +13,8 @@ function App() {
       <a className="navinfo">
         <img src={auction} className='img-logo'></img><span className="logo-label">Auction House</span>
         </a>
+
+        {JSON.parse(sessionStorage.getItem('user'))['username'] && <span className="">{JSON.parse(sessionStorage.getItem('user'))['username']}</span>}
     </header>
   );
 
@@ -24,8 +27,12 @@ function App() {
     <NavBar></NavBar>
     <div className="App">
       {
-        currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
+        currentForm === "login" && <Login compSwitch={toggleForm} /> 
       }
+      {
+        currentForm === "register" && <Register compSwitch={toggleForm} />
+      }
+      {currentForm === "auction" && <Auction compSwitch={toggleForm} />}
     </div>
     </div>
   );

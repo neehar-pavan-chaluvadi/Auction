@@ -56,3 +56,8 @@ button {
 .navbar{
   background-image: linear-gradient(79deg, #28c0c5, #c5c5ce 48%, #1fbcc2);
 }
+
+header {
+  display: flex;
+  align-items: center;
+}
