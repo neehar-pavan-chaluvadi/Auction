@@ -76,6 +76,7 @@ class Product(db.Model):
             'name': self.name,
             'description': self.description,
             'base_price': self.base_price,
+            'img': self.image_link,
         }
         if get_user:
             info['buyer'] = self.user_id.name

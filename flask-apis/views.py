@@ -114,10 +114,12 @@ class UserLogout(Resource):
 
 class ProductCatalogue(Resource):
     @jwt_required(optional=True)
-    def get(self, type):
+    def get(self):
         """
         List all the action products
         """
+        args = request.args
+        type = args.get('type','live')
         today_datetime = datetime.now()
         if type == "past":
             items_list = Product.query.filter(Product.auction_end_date < today_datetime).all()
