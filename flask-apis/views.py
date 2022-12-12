@@ -30,6 +30,7 @@ class UserBuyer(Resource):
             data = user.json(is_current_user=False)
         return data, HTTPStatus.OK
 
+    @cross_origin()
     def post(self):
         """
         To register new user
@@ -66,6 +67,7 @@ class UserBuyer(Resource):
         user.save()
         return {"success": True, "message":"Updated profile_name"}, HTTPStatus.OK
 
+    @cross_origin()
     @jwt_required(optional=True)
     def delete(self, username):
         """
@@ -103,6 +105,7 @@ class UserLogin(Resource):
         )
 
 class UserLogout(Resource):
+    @cross_origin()
     @jwt_required(optional=True)
     def delete(self):
         """
@@ -113,6 +116,7 @@ class UserLogout(Resource):
         return response, HTTPStatus.OK
 
 class ProductCatalogue(Resource):
+    @cross_origin()
     @jwt_required(optional=True)
     def get(self):
         """
@@ -135,6 +139,7 @@ class ProductCatalogue(Resource):
             'items': [item.json() for item in items_list]
         }
 
+    @cross_origin()
     @jwt_required(optional=True)
     def put(self):
         """

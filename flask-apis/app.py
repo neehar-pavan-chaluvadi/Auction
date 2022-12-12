@@ -30,7 +30,7 @@ def register_extensions(app):
 def register_resources(app):
     api = Api(app)
     admin = Admin(app)
-    admin.add_view(ProductViews(Product, db.session))
+    admin.add_view(ModelView(Product, db.session))
     admin.add_view(ModelView(User, db.session))
 
     api.add_resource(UserBuyer, '/users')

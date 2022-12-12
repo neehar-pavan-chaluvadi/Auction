@@ -77,7 +77,8 @@ class Product(db.Model):
             'description': self.description,
             'base_price': self.base_price,
             'img': self.image_link,
+            'highest_bid': self.highest_bid,
         }
         if get_user:
-            info['buyer'] = self.user_id.name
+            info['buyer'] = self.user.username
         return info
