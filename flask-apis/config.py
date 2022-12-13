@@ -8,7 +8,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'database.db')
     """
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{student}:{password}@{host}'.format(
-        student='',
+        student='neeharchaluvadi',
         password='',
         host='db-postgresql-is-5600-22-do-user-12767037-0.b.db.ondigitalocean.com:25060/neeharchaluvadi'
     )
