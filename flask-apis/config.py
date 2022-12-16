@@ -9,7 +9,7 @@ class Config:
     """
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{student}:{password}@{host}'.format(
         student='neeharchaluvadi',
-        password='',
+        password='3C93D323',
         host='db-postgresql-is-5600-22-do-user-12767037-0.b.db.ondigitalocean.com:25060/neeharchaluvadi'
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
