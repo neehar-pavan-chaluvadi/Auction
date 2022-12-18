@@ -5,10 +5,11 @@ import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import { Auction } from "./components/Auction";
 import { getStorageDetails } from "./servicerequests/service";
-const userDetails = getStorageDetails();
 
 function App() {
+  const userDetails = getStorageDetails();
   const [currentForm, setCurrentForm] = useState(userDetails?.username ? 'auction': 'login');
+  
   const onLogout = () => {
       sessionStorage.clear();
       setCurrentForm('login');

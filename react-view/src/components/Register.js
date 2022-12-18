@@ -14,7 +14,6 @@ export const Register = (props) => {
         e.preventDefault();
         AuthServices.register(name, profile, email, pass)
         .then((response) => {
-            console.log(response);
             toast('User registration successful')
             props.compSwitch('login')
         })

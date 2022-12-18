@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
 from flask_cors import cross_origin
-from models import User, Product
+from models import User, Product, ProductBuyer
 from http import HTTPStatus
 from utils import hash_password, check_password
 from flask_jwt_extended import (
@@ -10,26 +10,9 @@ from flask_jwt_extended import (
     get_jwt_identity,
     unset_jwt_cookies,
 )
-
 from datetime import datetime
 
-class UserBuyer(Resource):
-    @jwt_required(optional=True)
-    def get(self, username):
-        """
-        To get more details about buyer
-        Method: GET
-        """
-        user = User.get_by_username(username=username)
-        if user is None:
-            return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
-        current_user = get_jwt_identity()
-        if current_user == user.id:
-            data = user.json(is_current_user=True)
-        else:
-            data = user.json(is_current_user=False)
-        return data, HTTPStatus.OK
-
+class RegisterUser(Resource):
     @cross_origin()
     def post(self):
         """
@@ -48,39 +31,8 @@ class UserBuyer(Resource):
         password = hash_password(non_hash_password)
         user = User(username=username, profile_name=profile_name, email=email, password=password)
         user.save()
-        data = user.json(is_current_user=True)
+        data = user.json()
         return data, HTTPStatus.CREATED
-
-    @jwt_required(optional=True)
-    def put(self):
-        """
-        TO update/modify profile name of a user
-        method: PUT
-        """
-        json_data = request.get_json()
-        username = json_data.get('username')
-        new_profile_name = json_data.get('profile_name')
-        user = User.get_by_username(username=username)
-        if user is None:
-            return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
-        user.profile_name = new_profile_name
-        user.save()
-        return {"success": True, "message":"Updated profile_name"}, HTTPStatus.OK
-
-    @cross_origin()
-    @jwt_required(optional=True)
-    def delete(self, username):
-        """
-        Delete User
-        :method: DELETE
-        """
-        user = User.get_by_username(username=username)
-        if user is None:
-            return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
-        user.delete_from_db()
-        data = {"success": True, 'message': 'User deleted successfully'}
-        return data, HTTPStatus.DELETED
-
 
 class UserLogin(Resource):
     @cross_origin()
@@ -104,16 +56,54 @@ class UserLogin(Resource):
             HTTPStatus.OK
         )
 
-class UserLogout(Resource):
+class Person(Resource):
+    @jwt_required(optional=True)
+    def get(self, user_id=""):
+        """
+        To get more details about users
+        Method: GET
+        """
+        if user_id:
+            user = User.get_by_id(user_id=user_id)
+            if user is None:
+                return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
+            return user.json(), HTTPStatus.OK
+        data = []
+        for user in User.query.all():
+            data.append(user.json())
+        return data, HTTPStatus.OK
+    
+    @jwt_required(optional=True)
+    def put(self):
+        """
+        TO update/modify profile name of a user
+        method: PUT
+        """
+        json_data = request.get_json()
+        username = json_data.get('username')
+        new_profile_name = json_data.get('profile_name')
+        user = User.get_by_username(username=username)
+        if user is None:
+            return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
+        user.profile_name = new_profile_name
+        user.save()
+        return {"success": True, "message":"Updated profile_name"}, HTTPStatus.OK
+
     @cross_origin()
     @jwt_required(optional=True)
-    def delete(self):
+    def delete(self, user_id=""):
         """
-        logout user
+        Delete User
+        :method: DELETE
         """
-        response = {"success": True, "message": "User logged out"}
-        unset_jwt_cookies(response)
-        return response, HTTPStatus.OK
+        if user_id:
+            user = User.get_by_id(user_id=user_id)
+            if user is None:
+                return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
+            user.delete_from_db()
+            return {'message': 'User deleted successfully'}, HTTPStatus.OK
+        return {"message":'missing user_id'}, HTTPStatus.BAD_REQUEST
+            
 
 class ProductCatalogue(Resource):
     @cross_origin()
@@ -128,7 +118,7 @@ class ProductCatalogue(Resource):
         if type == "past":
             items_list = Product.query.filter(Product.auction_end_date < today_datetime).all()
             return {
-                'items': [item.json(get_user=True) for item in items_list]
+                'items': [item.json(type=type) for item in items_list]
             }
         elif type == 'live':
             items_list = Product.query.filter(
@@ -136,9 +126,10 @@ class ProductCatalogue(Resource):
         elif type == "future":
             items_list = Product.query.filter(Product.auction_start_date > today_datetime).all()
         return {
-            'items': [item.json() for item in items_list]
+            'items': [item.json(type=type) for item in items_list]
         }
-
+    
+class UpdateBidAmount(Resource):
     @cross_origin()
     @jwt_required(optional=True)
     def put(self):
@@ -156,8 +147,12 @@ class ProductCatalogue(Resource):
             return {'message': 'user not found'}, HTTPStatus.NOT_FOUND
         if product is None:
             return {'message': 'product not found'}, HTTPStatus.NOT_FOUND
-        product.highest_bid = amount
-        product.user_id = user.id
-        product.save()
-        return {"success": True,"message":"product bid amount updated"}, HTTPStatus.OK
-
+        prod_obj = ProductBuyer.get_details_from_product(product.id)
+        if prod_obj:
+            prod_obj.highest_bid = amount
+            prod_obj.user_id = user.id
+            prod_obj.save()
+        else:
+            new_obj = ProductBuyer(user_id=user.id, product_id=product.id, highest_bid=amount)
+            new_obj.save()
+        return {"success": True, "message":"product bid amount updated"}, HTTPStatus.OK

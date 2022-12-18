@@ -8,8 +8,14 @@ from admin import ProductViews
 from flask_admin.contrib.sqla import ModelView
 from config import Config
 from extensions import db, jwt
-from views import UserBuyer, UserLogin, ProductCatalogue, UserLogout
-from models import User, Product
+from views import (
+    RegisterUser,
+    UserLogin,
+    Person,
+    ProductCatalogue,
+    UpdateBidAmount,
+)
+from models import User, Product, ProductBuyer
 
 def create_app():
     app = Flask(__name__)
@@ -33,9 +39,10 @@ def register_resources(app):
     admin.add_view(ModelView(Product, db.session))
     admin.add_view(ModelView(User, db.session))
 
-    api.add_resource(UserBuyer, '/users')
+    api.add_resource(RegisterUser, '/register')
     api.add_resource(UserLogin, '/login')
-    api.add_resource(UserLogout, '/logout')
+    api.add_resource(Person, '/users', '/user/<int:user_id>')
+    api.add_resource(UpdateBidAmount, '/raise_bid')
     api.add_resource(ProductCatalogue, '/items')
 
 if __name__ == '__main__':

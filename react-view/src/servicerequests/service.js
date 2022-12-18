@@ -29,7 +29,7 @@ const logout = () => {
 }
 
   const register = (username, profile_name, email, password) =>{
-    return axios.post(API_URI + 'users', {
+    return axios.post(API_URI + 'register', {
       username,
       profile_name,
       email,
@@ -56,7 +56,7 @@ const logout = () => {
     const access_token = userDetails['access_token'];
     const username = userDetails['username'];
 
-    return axios.put(API_URI + 'items',{
+    return axios.put(API_URI + 'raise_bid',{
       product_id: id,
       username,
       amount: bidAmount
