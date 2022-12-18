@@ -1,0 +1,210 @@
+{
+	"info": {
+		"_postman_id": "02237bc2-4ccd-4f3f-83f0-89058c89ac69",
+		"name": "Auction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22388158"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"te name\",\n    \"profile_name\":\"profile\",\n    \"email\":\"tes@gmail.com\",\n    \"password\":\"test123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Bid amount",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjcxMzg1NjI0LCJqdGkiOiJlMjg0YjE4OC00NTEyLTRhODktOWI2MS02NzYxMDAxZmU3NWEiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoyLCJuYmYiOjE2NzEzODU2MjQsImV4cCI6MTY3MTQ3MjAyNH0.b4ui5QlL01hzmT_4dCnZXzy0_1PKsXYdG3_4i0AJrGM",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"test name\",\n    \"product_id\":2,\n    \"amount\":105\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/raise_bid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"raise_bid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjcxMzc0ODM1LCJqdGkiOiJmNGMyNjdjOS04MzUxLTRmMTYtYmM1ZC02MDhiOWNiZmI0MGIiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoyLCJuYmYiOjE2NzEzNzQ4MzUsImV4cCI6MTY3MTQ2MTIzNX0.8c_i_NNE93KUC0GmIv5nQ9iAvywbpW0g3hDsXyRqsdo",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/user/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjcxMzc0ODM1LCJqdGkiOiJmNGMyNjdjOS04MzUxLTRmMTYtYmM1ZC02MDhiOWNiZmI0MGIiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoyLCJuYmYiOjE2NzEzNzQ4MzUsImV4cCI6MTY3MTQ2MTIzNX0.8c_i_NNE93KUC0GmIv5nQ9iAvywbpW0g3hDsXyRqsdo",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjcxMzg1NjI0LCJqdGkiOiJlMjg0YjE4OC00NTEyLTRhODktOWI2MS02NzYxMDAxZmU3NWEiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoyLCJuYmYiOjE2NzEzODU2MjQsImV4cCI6MTY3MTQ3MjAyNH0.b4ui5QlL01hzmT_4dCnZXzy0_1PKsXYdG3_4i0AJrGM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/items?type=future",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"items"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "future"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjcxMzc4MjIxLCJqdGkiOiIyZWM5YTM0NC05ZTExLTRiMjAtODU1Yi04MmFjZGM3ZTBiOTAiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjo0LCJuYmYiOjE2NzEzNzgyMjEsImV4cCI6MTY3MTQ2NDYyMX0.pqcHllb-LxPbkSrlV12Sbv5SErAohsPF3rUVWMbpdgg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/user/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"test@gmail.com\",\n    \"password\":\"test123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
